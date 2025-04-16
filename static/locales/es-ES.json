@@ -1,0 +1,14 @@
+{
+  "app_title": "Stopmotion Classroom",
+  "privacy_notice": "Esta aplicación funciona completamente en local. No se recogen datos ni se envían a servidores.",
+  "capture": "Capturar",
+  "duplicate": "Duplicar",
+  "delete": "Eliminar",
+  "zoom_in": "Aumentar zoom",
+  "zoom_out": "Reducir zoom",
+  "toggle_grid": "Mostrar / Ocultar rejilla",
+  "save_project": "Guardar proyecto",
+  "load_project": "Cargar proyecto",
+  "project_saved": "Proyecto guardado localmente.",
+  "no_camera": "No se pudo acceder a la cámara. Asegúrate de que está conectada y habilitada."
+}

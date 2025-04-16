@@ -1,0 +1,31 @@
+.
+├── estrutura_proxecto.txt
+├── index.html
+├── manifest.json
+├── package-lock.json
+├── package.json
+├── public
+│   ├── icons
+│   │   ├── icon-192.png
+│   │   └── icon-512.png
+│   ├── locales
+│   │   ├── en-US.json
+│   │   ├── es-ES.json
+│   │   └── gl-GL.json
+│   ├── manifest.json
+│   └── service-worker.js
+├── README.md
+├── src
+│   ├── camera.js
+│   ├── gridOverlay.js
+│   ├── i18n.js
+│   ├── keyboardShortcuts.js
+│   ├── main.js
+│   ├── onionSkin.js
+│   ├── player.js
+│   └── storage.js
+├── styles
+│   └── main.css
+└── vite.config.js
+
+6 directories, 23 files

@@ -1,0 +1,14 @@
+{
+  "app_title": "Stopmotion Classroom",
+  "privacy_notice": "This application works completely offline. No data is collected or sent to servers.",
+  "capture": "Capture",
+  "duplicate": "Duplicate",
+  "delete": "Delete",
+  "zoom_in": "Zoom in",
+  "zoom_out": "Zoom out",
+  "toggle_grid": "Toggle grid",
+  "save_project": "Save project",
+  "load_project": "Load project",
+  "project_saved": "Project saved locally.",
+  "no_camera": "Could not access the camera. Make sure it is connected and enabled."
+}
