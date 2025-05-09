@@ -254,6 +254,14 @@ window.addEventListener('DOMContentLoaded', () => {
   } else {
     console.warn("❌ Botón 'Detener' no encontrado al cargar.");
   }
+
+  const fpsControl = document.getElementById('fps-control');
+  const fpsValue = document.getElementById('fps-value');
+  if (fpsControl && fpsValue) {
+    fpsControl.addEventListener('input', () => {
+      fpsValue.textContent = fpsControl.value;
+    });
+  }
 });
 
 const fileInput = document.createElement('input');
@@ -278,7 +286,7 @@ fileInput.addEventListener('change', async (e) => {
 // Cargar idioma ao iniciar
 loadLanguage();
 
-// Forzar visibilidade e capas correctas
+// Forzar visibilidad e capas correctas
 videoElement.style.display = 'block';
 videoElement.style.backgroundColor = 'black';
 videoElement.style.objectFit = 'cover';

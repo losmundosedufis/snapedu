@@ -1,10 +1,10 @@
-  body, html {
+body, html {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
     overflow: hidden;
-    background-color: #121212;
-    color: #f0f0f0;
+    background-color: #fdfcf7;
+    color: #222;
   }
 
   header {
@@ -23,27 +23,6 @@
     align-items: center;
   }
 
-  #controls {
-    position: relative;
-    bottom: auto;
-    display: flex;
-    gap: 0.5rem;
-    z-index: 10;
-  }
-
-  #controls button {
-    background-color: #2e2e2e;
-    color: #f0f0f0;
-    border: none;
-    border-radius: 10px;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-
-  #controls button:hover {
-    background-color: #3c3c3c;
-  }
 
 .thumbnail-container {
   display: flex;
@@ -149,9 +128,39 @@ body.dark-mode {
 }
 
 .btn-icon {
-  font-size: 1.5rem;
-  padding: 10px;
-  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 60px;
+  font-size: 1.2rem;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  gap: 8px;
+  background-color: inherit;
+  color: inherit;
+}
+
+.btn-icon + .btn-icon {
+  margin-top: 12px;
+}
+
+.btn-icon:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+/* Asegura que btn-outline-* se vean bien con .btn-icon */
+.btn-outline-dark.btn-icon,
+.btn-outline-success.btn-icon {
+  border-width: 2px;
+}
+
+.btn-outline-dark.btn-icon:hover,
+.btn-outline-success.btn-icon:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .btn-label {
@@ -175,4 +184,23 @@ html, body {
 
 #controls {
   flex-wrap: wrap;
+}
+
+.app-container {
+  background-color: #fdfcf7 !important;
+}
+
+
+/* Panel de control lateral más ancho y estilizado */
+.control-panel {
+  width: 230px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Alineación de elementos dentro de .btn-icon con el icono a la izquierda */
+.btn-icon span {
+  flex-grow: 1;
+  text-align: left;
 }

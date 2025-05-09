@@ -1,0 +1,124 @@
+.
+├── __pycache__
+│   ├── app.cpython-310.pyc
+│   └── app.cpython-313.pyc
+├── app.py
+├── estructura_snapedu.txt
+├── estrutura_proxecto.txt
+├── mover_a_static.sh
+├── node_modules
+│   ├── @esbuild
+│   │   └── darwin-arm64
+│   ├── esbuild
+│   │   ├── bin
+│   │   ├── install.js
+│   │   ├── lib
+│   │   ├── LICENSE.md
+│   │   ├── package.json
+│   │   └── README.md
+│   ├── fsevents
+│   │   ├── fsevents.d.ts
+│   │   ├── fsevents.js
+│   │   ├── fsevents.node
+│   │   ├── LICENSE
+│   │   ├── package.json
+│   │   └── README.md
+│   ├── nanoid
+│   │   ├── async
+│   │   ├── bin
+│   │   ├── index.browser.cjs
+│   │   ├── index.browser.js
+│   │   ├── index.cjs
+│   │   ├── index.d.cts
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── LICENSE
+│   │   ├── nanoid.js
+│   │   ├── non-secure
+│   │   ├── package.json
+│   │   ├── README.md
+│   │   └── url-alphabet
+│   ├── picocolors
+│   │   ├── LICENSE
+│   │   ├── package.json
+│   │   ├── picocolors.browser.js
+│   │   ├── picocolors.d.ts
+│   │   ├── picocolors.js
+│   │   ├── README.md
+│   │   └── types.d.ts
+│   ├── postcss
+│   │   ├── lib
+│   │   ├── LICENSE
+│   │   ├── package.json
+│   │   └── README.md
+│   ├── rollup
+│   │   ├── dist
+│   │   ├── LICENSE.md
+│   │   ├── package.json
+│   │   └── README.md
+│   ├── source-map-js
+│   │   ├── lib
+│   │   ├── LICENSE
+│   │   ├── package.json
+│   │   ├── README.md
+│   │   ├── source-map.d.ts
+│   │   └── source-map.js
+│   └── vite
+│       ├── bin
+│       ├── client.d.ts
+│       ├── dist
+│       ├── index.cjs
+│       ├── LICENSE.md
+│       ├── package.json
+│       ├── README.md
+│       └── types
+├── package-lock.json
+├── package.json
+├── presentacion.html
+├── public
+│   └── service-worker.js
+├── README.md
+├── requirements.txt
+├── static
+│   ├── icons
+│   │   ├── icon-192.png
+│   │   └── icon-512.png
+│   ├── locales
+│   │   ├── en-US.json
+│   │   ├── es-ES.json
+│   │   └── gl-GL.json
+│   ├── manifest.json
+│   ├── src
+│   │   ├── camera.js
+│   │   ├── gridOverlay.js
+│   │   ├── i18n.js
+│   │   ├── keyboardShortcuts.js
+│   │   ├── logo.png
+│   │   ├── main.js
+│   │   ├── onionSkin.js
+│   │   ├── player.js
+│   │   └── storage.js
+│   └── styles
+│       └── main.css
+├── templates
+│   └── index.html
+├── venv
+│   ├── bin
+│   │   ├── activate
+│   │   ├── activate.csh
+│   │   ├── activate.fish
+│   │   ├── Activate.ps1
+│   │   ├── flask
+│   │   ├── pip
+│   │   ├── pip3
+│   │   ├── pip3.10
+│   │   ├── python -> python3
+│   │   ├── python3 -> /Users/luis/.pyenv/versions/3.10.13/bin/python3
+│   │   └── python3.10 -> python3
+│   ├── include
+│   ├── lib
+│   │   └── python3.10
+│   └── pyvenv.cfg
+└── vite.config.js
+
+37 directories, 85 files

@@ -10,7 +10,7 @@
   <meta name="theme-color" content="#3399ff" />
   <title>Stopmotion Classroom</title>
 </head>
-<body class="app-container bg-light">
+<body class="app-container">
   <div class="container py-4">
     <header class="text-center mb-4">
       <h1 class="mb-3">🎬 Stopmotion Classroom</h1>
@@ -21,77 +21,61 @@
       </div>
     </header>
 
-    <div class="row justify-content-center mb-3">
-      <div class="col-12 col-md-8 position-relative border rounded overflow-hidden" style="aspect-ratio: 4 / 3;">
+    <div class="row">
+      <div class="control-panel" id="controls">
+        <div class="w-100 mb-3">
+          <label for="camera-select" class="form-label">Selecciona cámara:</label>
+          <select id="camera-select" class="form-select"></select>
+        </div>
+        <div class="d-grid gap-2">
+          <button id="capture" class="btn btn-danger btn-icon w-100">
+            📸<span class="btn-label">Capturar</span>
+          </button>
+          <button id="duplicate" class="btn btn-secondary btn-icon w-100">
+            ➕<span class="btn-label">Duplicar</span>
+          </button>
+          <button id="delete" class="btn btn-danger btn-icon w-100">
+            🗑️<span class="btn-label">Eliminar</span>
+          </button>
+          <button id="zoom-in" class="btn btn-warning btn-icon w-100">
+            🔍➕<span class="btn-label">Zoom +</span>
+          </button>
+          <button id="zoom-out" class="btn btn-warning btn-icon w-100">
+            🔍➖<span class="btn-label">Zoom −</span>
+          </button>
+          <button id="toggle-grid" class="btn btn-info btn-icon w-100">
+            🔲<span class="btn-label">Reixa</span>
+          </button>
+          <button id="save-project" class="btn btn-success btn-icon w-100">
+            💾<span class="btn-label">Gardar</span>
+          </button>
+          <button id="load-project" class="btn btn-outline-success btn-icon w-100">
+            📂<span class="btn-label">Cargar</span>
+          </button>
+          <button id="play-animation" class="btn btn-primary btn-icon w-100">
+            ▶️<span class="btn-label">Reproducir</span>
+          </button>
+          <button id="export-video" class="btn btn-outline-dark btn-icon w-100">
+            🎥<span class="btn-label">Exportar vídeo</span>
+          </button>
+        </div>
+        <div class="mt-3 w-100 text-center">
+          <label for="fps-control" class="form-label">Velocidade (FPS): <span id="fps-value">6</span></label>
+          <input type="range" class="form-range" min="1" max="24" value="6" id="fps-control">
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 position-relative border rounded overflow-hidden mb-3" style="aspect-ratio: 4 / 3;">
         <video id="preview" autoplay muted playsinline class="w-100 h-100 position-absolute top-0 start-0"></video>
         <canvas id="onion-skin-canvas" class="position-absolute top-0 start-0 w-100 h-100"></canvas>
       </div>
-    </div>
 
-    <div class="row justify-content-center mb-3">
-      <div class="col-10 col-md-6">
-        <label for="camera-select" class="form-label">Selecciona cámara:</label>
-        <select id="camera-select" class="form-select"></select>
+      <div class="col-12 col-md-3">
+        <div id="framesContainer" class="row mb-4"></div>
+        <div id="thumbnail-container" class="thumbnail-container">
+          <!-- Miniaturas -->
+        </div>
       </div>
-    </div>
-
-    <div class="row g-3 justify-content-center mb-3" id="controls">
-      <div class="col-6 col-sm-4 col-md-2 text-center">
-        <button id="capture" class="btn btn-danger btn-icon w-100">
-          📸<span class="btn-label">Capturar</span>
-        </button>
-      </div>
-      <div class="col-6 col-sm-4 col-md-2 text-center">
-        <button id="duplicate" class="btn btn-secondary btn-icon w-100">
-          ➕<span class="btn-label">Duplicar</span>
-        </button>
-      </div>
-      <div class="col-6 col-sm-4 col-md-2 text-center">
-        <button id="delete" class="btn btn-danger btn-icon w-100">
-          🗑️<span class="btn-label">Eliminar</span>
-        </button>
-      </div>
-      <div class="col-6 col-sm-4 col-md-2 text-center">
-        <button id="zoom-in" class="btn btn-warning btn-icon w-100">
-          🔍➕<span class="btn-label">Zoom +</span>
-        </button>
-      </div>
-      <div class="col-6 col-sm-4 col-md-2 text-center">
-        <button id="zoom-out" class="btn btn-warning btn-icon w-100">
-          🔍➖<span class="btn-label">Zoom −</span>
-        </button>
-      </div>
-      <div class="col-6 col-sm-4 col-md-2 text-center">
-        <button id="toggle-grid" class="btn btn-info btn-icon w-100">
-          🔲<span class="btn-label">Reixa</span>
-        </button>
-      </div>
-      <div class="col-6 col-md-3 text-center">
-        <button id="save-project" class="btn btn-success btn-icon w-100">
-          💾<span class="btn-label">Gardar</span>
-        </button>
-      </div>
-      <div class="col-6 col-md-3 text-center">
-        <button id="load-project" class="btn btn-outline-success btn-icon w-100">
-          📂<span class="btn-label">Cargar</span>
-        </button>
-      </div>
-      <div class="col-6 col-md-3 text-center">
-        <button id="play-animation" class="btn btn-dark btn-icon w-100">
-          ▶️<span class="btn-label">Reproducir</span>
-        </button>
-      </div>
-      <div class="col-6 col-md-3 text-center">
-        <button id="export-video" class="btn btn-success btn-icon w-100">
-          🎥<span class="btn-label">Exportar vídeo</span>
-        </button>
-      </div>
-    </div>
-
-    <div id="framesContainer" class="row mb-4"></div>
-
-    <div id="thumbnail-container" class="thumbnail-container">
-      <!-- Miniaturas -->
     </div>
   </div>
 
