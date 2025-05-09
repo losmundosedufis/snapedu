@@ -2,96 +2,103 @@
 <html lang="gl">
 <head>
   <meta charset="UTF-8" />
-  <style>
-    .thumbnail-container img {
-      width: 120px;
-      height: auto;
-      border: 2px solid #ccc;
-      border-radius: 4px;
-      transition: transform 0.2s ease;
-    }
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    .thumbnail-container img:hover {
-      transform: scale(1.05);
-      border-color: #fff;
-    }
-    
-    .video-wrapper {
-      position: relative;
-      display: inline-block;
-      width: 640px;
-      height: 480px;
-      border: 2px solid #00ffaa50;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    #preview, #onion-skin-canvas {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    #preview {
-      z-index: 1;
-    }
-
-    #onion-skin-canvas {
-      z-index: 2;
-      pointer-events: none;
-    }
-  </style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
   <meta name="theme-color" content="#3399ff" />
   <title>Stopmotion Classroom</title>
 </head>
-<body class="app-container">
-  <header>
-    <h1>🎬 Stopmotion Classroom</h1>
-    <p id="privacyNotice">Esta app funciona completamente en local. Non se recollen datos nin se envían a servidores.</p>
-  </header>
-
-  <main class="main-layout">
-    <section id="video-section">
-      <div class="video-wrapper">
-        <video id="preview" autoplay muted playsinline></video>
-        <canvas id="onion-skin-canvas"></canvas>
+<body class="app-container bg-light">
+  <div class="container py-4">
+    <header class="text-center mb-4">
+      <h1 class="mb-3">🎬 Stopmotion Classroom</h1>
+      <div class="alert alert-info text-center">
+        <p><strong>Galego:</strong> Esta aplicación funciona <strong>100% en local</strong>. Non se recollen, almacenan nin transmiten imaxes nin datos. O seu uso é <strong>seguro</strong> e respectuoso coa privacidade do alumnado.</p>
+        <p><strong>Español:</strong> Esta aplicación funciona <strong>100% en local</strong>. No se recogen, almacenan ni transmiten imágenes ni datos. Su uso es <strong>seguro</strong> y respetuoso con la privacidad del alumnado.</p>
+        <p><strong>English:</strong> This application runs <strong>100% locally</strong>. It does not collect, store or transmit any images or data. It is <strong>safe</strong> and respectful of students’ privacy.</p>
       </div>
-    </section>
+    </header>
 
-    <div style="text-align: center; margin: 10px;">
-      <label for="camera-select">Selecciona cámara:</label>
-      <select id="camera-select" style="margin: 10px; font-size: 1rem;"></select>
-    </div>
-
-    <div id="controls" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 10px;">
-      <button id="capture" title="Capturar"><span>📸</span></button>
-      <button id="duplicate" title="Duplicar"><span>➕</span></button>
-      <button id="delete" title="Eliminar"><span>🗑️</span></button>
-      <button id="zoom-in" title="Zoom +"><span>🔍➕</span></button>
-      <button id="zoom-out" title="Zoom -"><span>🔍➖</span></button>
-      <button id="toggle-grid" title="Grella"><span>🔲</span></button>
-      <button id="save-project" title="Gardar proxecto"><span>💾</span></button>
-      <button id="load-project" title="Cargar proxecto"><span>📂</span></button>
-      <button id="play-animation" title="Reproducir"><span>▶️</span></button>
-      <button id="stop-animation" title="Parar"><span>🟥</span></button>
-      <button id="export-video" title="Exportar vídeo"><span>🎞️</span></button>
-      <div style="text-align: center; margin: 10px;">
-        <label for="onionOpacity">Opacidade do Onion Skin:</label>
-        <input type="range" id="onionOpacity" min="0" max="1" step="0.05" value="0.5" style="width: 200px;">
+    <div class="row justify-content-center mb-3">
+      <div class="col-12 col-md-8 position-relative border rounded overflow-hidden" style="aspect-ratio: 4 / 3;">
+        <video id="preview" autoplay muted playsinline class="w-100 h-100 position-absolute top-0 start-0"></video>
+        <canvas id="onion-skin-canvas" class="position-absolute top-0 start-0 w-100 h-100"></canvas>
       </div>
     </div>
 
-    <div id="framesContainer" class="frames-container"></div>
-
-    <div id="thumbnail-container" class="thumbnail-container" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; padding: 10px;">
-      <!-- Thumbnails will be dynamically inserted here -->
+    <div class="row justify-content-center mb-3">
+      <div class="col-10 col-md-6">
+        <label for="camera-select" class="form-label">Selecciona cámara:</label>
+        <select id="camera-select" class="form-select"></select>
+      </div>
     </div>
-  </main>
+
+    <div class="row g-3 justify-content-center mb-3" id="controls">
+      <div class="col-6 col-sm-4 col-md-2 text-center">
+        <button id="capture" class="btn btn-danger btn-icon w-100">
+          📸<span class="btn-label">Capturar</span>
+        </button>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2 text-center">
+        <button id="duplicate" class="btn btn-secondary btn-icon w-100">
+          ➕<span class="btn-label">Duplicar</span>
+        </button>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2 text-center">
+        <button id="delete" class="btn btn-danger btn-icon w-100">
+          🗑️<span class="btn-label">Eliminar</span>
+        </button>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2 text-center">
+        <button id="zoom-in" class="btn btn-warning btn-icon w-100">
+          🔍➕<span class="btn-label">Zoom +</span>
+        </button>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2 text-center">
+        <button id="zoom-out" class="btn btn-warning btn-icon w-100">
+          🔍➖<span class="btn-label">Zoom −</span>
+        </button>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2 text-center">
+        <button id="toggle-grid" class="btn btn-info btn-icon w-100">
+          🔲<span class="btn-label">Reixa</span>
+        </button>
+      </div>
+      <div class="col-6 col-md-3 text-center">
+        <button id="save-project" class="btn btn-success btn-icon w-100">
+          💾<span class="btn-label">Gardar</span>
+        </button>
+      </div>
+      <div class="col-6 col-md-3 text-center">
+        <button id="load-project" class="btn btn-outline-success btn-icon w-100">
+          📂<span class="btn-label">Cargar</span>
+        </button>
+      </div>
+      <div class="col-6 col-md-3 text-center">
+        <button id="play-animation" class="btn btn-dark btn-icon w-100">
+          ▶️<span class="btn-label">Reproducir</span>
+        </button>
+      </div>
+      <div class="col-6 col-md-3 text-center">
+        <button id="export-video" class="btn btn-success btn-icon w-100">
+          🎥<span class="btn-label">Exportar vídeo</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="framesContainer" class="row mb-4"></div>
+
+    <div id="thumbnail-container" class="thumbnail-container">
+      <!-- Miniaturas -->
+    </div>
+  </div>
+
+  <a href="https://donar.losmundosedufis.com" target="_blank"
+    class="btn btn-danger position-fixed bottom-0 end-0 m-3 shadow">
+    ☕️ Invítame a un café
+  </a>
 
   <script type="module" src="{{ url_for('static', filename='src/main.js') }}"></script>
 </body>

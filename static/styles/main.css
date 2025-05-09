@@ -1,106 +1,178 @@
-:root {
-    --bg-color: #1e1e1e;
-    --text-color: #f0f0f0;
-    --accent-color: #4ecdc4;
-    --button-bg: #2e2e2e;
-    --button-hover: #3c3c3c;
-    --border-radius: 10px;
-    --transition-speed: 0.2s;
-  }
-  
-  body {
+  body, html {
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh;
+    padding: 0;
+    font-family: Arial, sans-serif;
     overflow: hidden;
+    background-color: #121212;
+    color: #f0f0f0;
   }
-  
+
   header {
+    background-color: #1e1e1e;
     padding: 1rem;
     text-align: center;
-    background-color: #121212;
-    width: 100%;
     border-bottom: 1px solid #333;
   }
-  
+
   main {
+    position: relative;
+    padding: 1rem;
+    padding-bottom: 6rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex-grow: 1;
-    justify-content: center;
-    padding: 1rem;
-    gap: 1rem;
   }
-  
-  #preview {
-    width: 90vw;
-    max-width: 960px;
-    height: auto;
-    border: 2px solid var(--accent-color);
-    border-radius: var(--border-radius);
-    background: black;
-  }
-  
-  #onion-skin-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    opacity: 0.4;
-  }
-  
+
   #controls {
+    position: relative;
+    bottom: auto;
     display: flex;
-    flex-wrap: wrap;
     gap: 0.5rem;
-    justify-content: center;
+    z-index: 10;
   }
-  
+
   #controls button {
-    background-color: var(--button-bg);
-    color: var(--text-color);
+    background-color: #2e2e2e;
+    color: #f0f0f0;
     border: none;
-    border-radius: var(--border-radius);
+    border-radius: 10px;
     padding: 0.5rem 1rem;
     cursor: pointer;
-    font-size: 1rem;
-    transition: background-color var(--transition-speed);
+    transition: background-color 0.2s;
   }
-  
+
   #controls button:hover {
-    background-color: var(--button-hover);
+    background-color: #3c3c3c;
   }
-  
-  #privacyNotice {
-    font-size: 0.9rem;
-    color: #aaa;
-    margin-top: 0.5rem;
-  }
+
+.thumbnail-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+  margin-bottom: 8rem;
+}
+
+.thumbnail-container img {
+  width: 120px;
+  height: auto;
+  border: 3px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.thumbnail-container img:hover {
+  transform: scale(1.05);
+  border-color: #00ffaa;
+}
+
+.thumbnail-container img.selected {
+  border-color: #ff0000;
+}
 
 .video-wrapper {
   position: relative;
   display: inline-block;
+  width: 640px;
+  height: 480px;
   border: 2px solid #00ffaa50;
   border-radius: 10px;
   overflow: hidden;
 }
 
-#preview, #onion-skin-canvas {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+#preview {
+  display: block;
   z-index: 1;
 }
 
 #onion-skin-canvas {
   z-index: 2;
   pointer-events: none;
+}
+
+#camera-select {
+  width: 90%;
+  max-width: 300px;
+}
+
+@media (max-width: 768px) {
+  .video-wrapper {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1.2;
+    margin-bottom: 2rem;
+  }
+
+  #preview, #onion-skin-canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #controls {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #controls button {
+    width: 80%;
+    font-size: 1.2rem;
+  }
+
+  #thumbnail-container img {
+    width: 80px;
+  }
+
+  #camera-select {
+    font-size: 1.1rem;
+    padding: 6px;
+  }
+
+  body {
+    padding-bottom: 4rem;
+  }
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+.btn-icon {
+  font-size: 1.5rem;
+  padding: 10px;
+  height: 60px;
+}
+
+.btn-label {
+  display: block;
+  font-size: 0.85rem;
+}
+
+.btn-group-vertical .btn {
+  margin-bottom: 0.5rem;
+}
+
+html, body {
+  height: auto !important;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+.container {
+  min-height: 100vh;
+}
+
+#controls {
+  flex-wrap: wrap;
 }

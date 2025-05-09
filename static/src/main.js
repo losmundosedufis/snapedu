@@ -16,8 +16,8 @@ async function getAvailableCameras() {
         option.text = device.label || `Cámara ${cameraSelect.length + 1}`;
         cameraSelect.appendChild(option);
       });
-      // Iniciar con a primeira cámara automaticamente
-      initCamera(videoDevices[0].deviceId);
+      // Iniciar con a primeira cámara seleccionada
+      initCamera(cameraSelect.value);
     }
   } catch (error) {
     console.error('Erro ao listar dispositivos de vídeo:', error);
@@ -26,10 +26,10 @@ async function getAvailableCameras() {
 
 async function initCamera(deviceId = null) {
   try {
-    const constraints = {
-      video: deviceId ? { deviceId: { exact: deviceId } } : { width: 1280, height: 720 }
-    };
-    const stream = await navigator.mediaDevices.getUserMedia({ video: constraints.video });
+    const constraints = deviceId
+      ? { video: { deviceId: { exact: deviceId } } }
+      : { video: { facingMode: "environment" } };  // por defecto cámara traseira en móbiles
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
     videoElement.srcObject = stream;
     videoElement.onloadedmetadata = () => {
       videoElement.play().catch((e) => {
@@ -41,12 +41,6 @@ async function initCamera(deviceId = null) {
     alert('Non foi posible acceder á cámara. Asegúrate de que está conectada e habilitada.');
   }
 }
-
-// Iniciar cámara ao cargar
-window.addEventListener('DOMContentLoaded', () => {
-  getAvailableCameras();
-  initCamera();
-});
 
 let frames = [];
 let currentZoom = 1;
@@ -72,11 +66,16 @@ function updateThumbnails() {
   thumbnailContainer.innerHTML = '';
   frames.forEach((frame, index) => {
     const thumb = document.createElement('canvas');
-    thumb.width = 80;
-    thumb.height = 60;
+    thumb.width = 120;
+    thumb.height = 90;
     const thumbCtx = thumb.getContext('2d');
     thumbCtx.drawImage(frame, 0, 0, thumb.width, thumb.height);
     thumb.classList.add('thumbnail');
+    thumb.dataset.index = index;
+    thumb.addEventListener('click', () => {
+      document.querySelectorAll('.thumbnail').forEach(el => el.classList.remove('selected'));
+      thumb.classList.add('selected');
+    });
     thumbnailContainer.appendChild(thumb);
   });
 }
@@ -92,62 +91,6 @@ videoElement.addEventListener('loadedmetadata', () => {
   videoElement.style.objectFit = 'cover';
   videoElement.style.width = '100%';
   videoElement.style.height = '100%';
-});
-
-// Capturar imaxe
-document.getElementById('capture').addEventListener('click', () => {
-  const frame = document.createElement('canvas');
-  frame.width = videoElement.videoWidth;
-  frame.height = videoElement.videoHeight;
-  frame.getContext('2d').drawImage(videoElement, 0, 0);
-  frames.push(frame);
-  drawOnionSkin();
-  updateThumbnails();
-});
-
-// Duplicar última imaxe
-document.getElementById('duplicate').addEventListener('click', () => {
-  if (frames.length > 0) {
-    const lastFrame = frames[frames.length - 1];
-    const copy = document.createElement('canvas');
-    copy.width = lastFrame.width;
-    copy.height = lastFrame.height;
-    copy.getContext('2d').drawImage(lastFrame, 0, 0);
-    frames.push(copy);
-    drawOnionSkin();
-    updateThumbnails();
-  }
-});
-
-// Eliminar última imaxe
-document.getElementById('delete').addEventListener('click', () => {
-  if (frames.length > 0) {
-    frames.pop();
-    drawOnionSkin();
-    updateThumbnails();
-  }
-});
-
-// Zoom
-document.getElementById('zoom-in').addEventListener('click', () => {
-  currentZoom += 0.1;
-  updateZoom();
-});
-
-document.getElementById('zoom-out').addEventListener('click', () => {
-  currentZoom = Math.max(0.5, currentZoom - 0.1);
-  updateZoom();
-});
-
-function updateZoom() {
-  videoElement.style.transform = `scale(${currentZoom})`;
-  videoElement.style.transformOrigin = "center center";
-}
-
-// Grella visual
-document.getElementById('toggle-grid').addEventListener('click', () => {
-  showGrid = !showGrid;
-  drawOnionSkin();
 });
 
 function drawOnionSkin() {
@@ -200,17 +143,117 @@ function drawGrid(ctx, canvas) {
   ctx.restore();
 }
 
+function updateZoom() {
+  videoElement.style.transform = `scale(${currentZoom})`;
+  videoElement.style.transformOrigin = "center center";
+}
+
 import { saveProject, loadProject, exportToVideo, saveProjectToFile, loadProjectFromFile } from './storage.js';
 import { loadLanguage } from './i18n.js';
 import { playAnimation } from './player.js';
 import { stopAnimation } from './player.js';
 
-document.getElementById('save-project').addEventListener('click', () => {
-  if (!frames.length) {
-    alert('Non hai frames para gardar.');
-    return;
+window.addEventListener('DOMContentLoaded', () => {
+  getAvailableCameras();
+  initCamera();
+
+  document.getElementById('capture').addEventListener('click', () => {
+    const frame = document.createElement('canvas');
+    frame.width = videoElement.videoWidth;
+    frame.height = videoElement.videoHeight;
+    frame.getContext('2d').drawImage(videoElement, 0, 0);
+    frames.push(frame);
+    drawOnionSkin();
+    updateThumbnails();
+  });
+
+  document.getElementById('duplicate').addEventListener('click', () => {
+    if (frames.length > 0) {
+      const lastFrame = frames[frames.length - 1];
+      const copy = document.createElement('canvas');
+      copy.width = lastFrame.width;
+      copy.height = lastFrame.height;
+      copy.getContext('2d').drawImage(lastFrame, 0, 0);
+      frames.push(copy);
+      drawOnionSkin();
+      updateThumbnails();
+    }
+  });
+
+  document.getElementById('delete').addEventListener('click', () => {
+    const selectedThumb = document.querySelector('.thumbnail.selected');
+    if (selectedThumb) {
+      const index = parseInt(selectedThumb.dataset.index);
+      if (!isNaN(index)) {
+        frames.splice(index, 1);
+      }
+    } else if (frames.length > 0) {
+      frames.pop();
+    }
+    drawOnionSkin();
+    updateThumbnails();
+  });
+
+  document.getElementById('zoom-in').addEventListener('click', () => {
+    currentZoom += 0.1;
+    updateZoom();
+  });
+
+  document.getElementById('zoom-out').addEventListener('click', () => {
+    currentZoom = Math.max(0.5, currentZoom - 0.1);
+    updateZoom();
+  });
+
+  document.getElementById('toggle-grid').addEventListener('click', () => {
+    showGrid = !showGrid;
+    drawOnionSkin();
+  });
+
+  document.getElementById('save-project').addEventListener('click', () => {
+    if (!frames.length) {
+      alert('Non hai frames para gardar.');
+      return;
+    }
+    saveProjectToFile(frames);
+  });
+
+  document.getElementById('load-project').addEventListener('click', () => {
+    fileInput.click();
+  });
+
+  document.getElementById('load-project').addEventListener('click', async () => {
+    console.log("Botón Cargar pulsado");
+    const loadedFrames = await loadProject();
+    if (loadedFrames.length > 0) {
+      frames = loadedFrames;
+      drawOnionSkin();
+      updateThumbnails();
+      alert('Proxecto cargado.');
+    }
+  });
+
+  document.getElementById('play-animation').addEventListener('click', () => {
+    console.log("Botón Reproducir pulsado", frames.length);
+    playAnimation(frames, canvas, ctx);
+  });
+
+  document.getElementById('export-video').addEventListener('click', () => {
+    if (!frames.length) {
+      alert('Non hai frames para exportar.');
+      return;
+    }
+    exportToVideo(frames, canvas, 6); // 6 FPS como valor inicial
+  });
+
+  const stopBtn = document.getElementById('stop-animation');
+  if (stopBtn) {
+    stopBtn.addEventListener('click', () => {
+      console.log('🟥 Botón "Detener" pulsado desde main.js');
+      stopAnimation(frames, canvas, ctx, showGrid, drawGrid);
+    });
+  } else {
+    console.warn("❌ Botón 'Detener' no encontrado al cargar.");
   }
-  saveProjectToFile(frames);
 });
 
 const fileInput = document.createElement('input');
@@ -230,41 +273,6 @@ fileInput.addEventListener('change', async (e) => {
       alert('Proxecto cargado desde arquivo.');
     }
   }
-});
-
-document.getElementById('load-project').addEventListener('click', () => {
-  fileInput.click();
-});
-
-document.getElementById('load-project').addEventListener('click', async () => {
-  console.log("Botón Cargar pulsado");
-  const loadedFrames = await loadProject();
-  if (loadedFrames.length > 0) {
-    frames = loadedFrames;
-    drawOnionSkin();
-    updateThumbnails();
-    alert('Proxecto cargado.');
-  }
-});
-
-// Añadir funcionalidade de reproducción
-document.getElementById('play-animation').addEventListener('click', () => {
-  console.log("Botón Reproducir pulsado", frames.length);
-  playAnimation(frames, canvas, ctx);
-});
-
-// Conectar botón de exportación de vídeo
-document.getElementById('export-video').addEventListener('click', () => {
-  if (!frames.length) {
-    alert('Non hai frames para exportar.');
-    return;
-  }
-  exportToVideo(frames, canvas, 6); // 6 FPS como valor inicial
-});
-
-document.getElementById('stop-animation').addEventListener('click', () => {
-  stopAnimation();
-  drawOnionSkin(); // Volver mostrar a última frame
 });
 
 // Cargar idioma ao iniciar
